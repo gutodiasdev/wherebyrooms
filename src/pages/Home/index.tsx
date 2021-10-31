@@ -1,6 +1,7 @@
 import './styles.scss';
 import { FormEvent, useState } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
+
 
 export function Home() {
 
@@ -10,23 +11,20 @@ export function Home() {
     event.preventDefault();
 
     if (endDateForm.trim() === '') {
-      return;
+      return console.log({ error: "Teste" });
     }
 
-    const data = {
-      endDate: `${endDateForm}-03:00`,
-      fields: ["https://call-meethub.whereby.com/"],
-    }
+    console.log(`${endDateForm}:00-03:00`);
 
-    const headers = {
-      Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-      "Content-Type": "application/json",
-    }
-
-    axios.post("https://api.whereby.dev/v1/meetings", data, { headers })
-      .then(response => {
-        console.log(response.data);
-      });
+    await api.post('/meetings',
+      {
+        endDate: endDateForm + ':00-03:00',
+        fields: ["https://call-meethub.whereby.com/"]
+      })
+      .then((response) => console.log(response))
+      .catch((error) => {
+        console.error("Ops, ocorreu um erro" + JSON.stringify(error));
+      })
   }
 
   return (
