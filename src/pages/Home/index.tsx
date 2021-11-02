@@ -1,6 +1,7 @@
 import './styles.scss';
 import { FormEvent, useState } from 'react';
 import api from '../../services/api';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export function Home() {
@@ -11,22 +12,19 @@ export function Home() {
     event.preventDefault();
 
     if (endDateForm.trim() === '') {
-      return console.log({ error: "Teste" });
+      return toast.error('Você precisa escolher data e hora de término do meet!');
     }
 
     console.log(`${endDateForm}:00-03:00`);
 
-    await api.post('/meetings',
-      {
-        endDate: endDateForm + ':00-03:00',
-        fields: ["https://call-meethub.whereby.com/"]
-      })
-      .then((response) => console.log(response))
-      .catch((error) => {
-        console.error("Ops, ocorreu um erro" + JSON.stringify(error));
-      })
-  }
 
+    api.post('/', {
+      endDate: endDateForm + ':00-03:00',
+      fields: ['https://call-meethub.whereby.com']
+    })
+      .then((response) => console.log(response.data))
+
+  }
   return (
     <div className="main">
       <div className="content">
@@ -47,6 +45,7 @@ export function Home() {
       <div className="separator">
         <span>Salas criadas</span>
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   )
 }
