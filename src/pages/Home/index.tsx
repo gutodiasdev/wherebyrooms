@@ -2,6 +2,8 @@ import './styles.scss';
 import { FormEvent, useState } from 'react';
 import api from '../../services/api';
 import toast, { Toaster } from 'react-hot-toast';
+import { database } from '../../services/firebase';
+import { ref, push, child, update } from 'firebase/database';
 
 
 export function Home() {
@@ -17,14 +19,29 @@ export function Home() {
 
     console.log(`${endDateForm}:00-03:00`);
 
-
-    api.post('/', {
+    await api.post('/', {
       endDate: endDateForm + ':00-03:00',
       fields: ['https://call-meethub.whereby.com']
     })
-      .then((response) => console.log(response.data))
+      .then((response) => {
+        console.log(response.data);
+
+        const newRoomData = {
+          meetingId: response.data.meetingId,
+          startDate: response.data.startDate,
+          endDate: response.data.endDate,
+          roomUrl: response.data.roomUrl,
+        }
+
+        const newRoomKey = push(child(ref(database), 'rooms')).key;
+        const updates: any = {};
+        updates[`/rooms/${newRoomKey}`] = newRoomData;
+        update(ref(database), updates);
+
+      })
 
   }
+
   return (
     <div className="main">
       <div className="content">
