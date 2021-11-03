@@ -37,7 +37,7 @@ export function Home() {
 
     const apiCall = api.post('/', {
       startDate: startDateForm + ':00-03:00',
-      endDate: endDateForm + ':00-03:00',
+      endDate: startDateForm + ':00-03:00',
       fields: ['https://call-meethub.whereby.com']
     })
       .then((response) => {
@@ -63,10 +63,7 @@ export function Home() {
       success: 'Sala criada!',
       error: 'Desculpe, houve algo errado.',
     });
-
   }
-
-
 
   return (
     <div className="main">
@@ -104,20 +101,21 @@ export function Home() {
         <span>Salas criadas</span>
       </div>
 
-
-      {
-        wherebyRoomsList.map((room: any) => {
-          return (
-            <Room
-              key={room.meetingId}
-              meetingId={room.meetingId}
-              startDate={room.startDate}
-              endDate={room.endDate}
-              roomUrl={room.roomUrl}
-            />
-          )
-        })
-      }
+      <div className="room-container">
+        {
+          wherebyRoomsList.map((room: any) => {
+            return (
+              <Room
+                key={room.meetingId}
+                meetingId={room.meetingId}
+                startDate={room.startDate}
+                endDate={room.endDate}
+                roomUrl={room.roomUrl}
+              />
+            )
+          })
+        }
+      </div>
 
       <Toaster position="top-right" reverseOrder={false} />
     </div>
