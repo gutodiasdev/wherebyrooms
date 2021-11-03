@@ -1,14 +1,32 @@
 import './styles.scss';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import api from '../../services/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { database } from '../../services/firebase';
-import { ref, push, child, update } from 'firebase/database';
+import { ref, push, child, update, onValue } from 'firebase/database';
+import { Room } from '../../components/Room';
 
+type Rooms = {
+  meetingId: string,
+  startDate: string,
+  endDate: string,
+  roomUrl: string,
+}
 
 export function Home() {
-
   const [endDateForm, setEndDateForm] = useState('');
+  const [wherebyRoomsList, setWhereByRoomsList] = useState<Rooms[]>([]);
+
+  useEffect(() => {
+    const roomRef = ref(database, `rooms`);
+
+    onValue(roomRef, rooms => {
+      const wherebyRooms = rooms.val();
+
+      console.log(wherebyRooms);
+      setWhereByRoomsList(Object.values(wherebyRooms));
+    });
+  }, []);
 
   async function handleCreateRoom(event: FormEvent) {
     event.preventDefault();
@@ -62,6 +80,22 @@ export function Home() {
       <div className="separator">
         <span>Salas criadas</span>
       </div>
+
+
+      {
+        wherebyRoomsList.map((room: any) => {
+          return (
+            <Room
+              key={room.meetingId}
+              meetingId={room.meetingId}
+              startDate={room.startDate}
+              endDate={room.endDate}
+              roomUrl={room.roomUrl}
+            />
+          )
+        })
+      }
+
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   )

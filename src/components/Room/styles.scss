@@ -1,0 +1,18 @@
+.room {
+  background: #fefefe;
+
+  border-radius: 8px;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.04);
+  padding: 24px;
+  min-width: 450px;
+  max-width: 650px;
+  margin: 0 auto;
+
+  & + .room {
+    margin-top: 8px;
+  }
+
+  p{
+    color: #29292e;
+  }
+}
