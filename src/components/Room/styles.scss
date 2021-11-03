@@ -8,11 +8,56 @@
   max-width: 650px;
   margin: 0 auto;
 
+  display: flex;
+  flex-direction: column;
+
   & + .room {
     margin-top: 8px;
   }
 
   p{
     color: #29292e;
+  }
+
+  .room-id {
+    display: flex;
+    justify-content: flex-end;
+
+    span {
+      font-size: 12px;
+      color: #dadada;
+    }
+  }
+
+  .room-link {
+
+    input[type="text"] {
+      border: 1px solid #d3d3d3;
+      padding: 4px 16px;
+      cursor: unset;
+
+      border-radius: 4px;
+      flex: 1;
+    }
+
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+
+    .copy-button {
+      font-size: 12px;
+      color: #fefefe;
+      background: #17bef1;
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      border: none;
+      border-radius: 4px;
+
+      padding: 4px 8px;
+    }
   }
 }

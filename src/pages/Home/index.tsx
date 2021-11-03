@@ -15,6 +15,7 @@ type Rooms = {
 
 export function Home() {
   const [endDateForm, setEndDateForm] = useState('');
+  const [startDateForm, setStartDateForm] = useState('');
   const [wherebyRoomsList, setWhereByRoomsList] = useState<Rooms[]>([]);
 
   useEffect(() => {
@@ -23,7 +24,6 @@ export function Home() {
     onValue(roomRef, rooms => {
       const wherebyRooms = rooms.val();
 
-      console.log(wherebyRooms);
       setWhereByRoomsList(Object.values(wherebyRooms));
     });
   }, []);
@@ -35,15 +35,12 @@ export function Home() {
       return toast.error('Você precisa escolher data e hora de término do meet!');
     }
 
-    console.log(`${endDateForm}:00-03:00`);
-
-    await api.post('/', {
+    const apiCall = api.post('/', {
+      startDate: startDateForm + ':00-03:00',
       endDate: endDateForm + ':00-03:00',
       fields: ['https://call-meethub.whereby.com']
     })
       .then((response) => {
-        console.log(response.data);
-
         const newRoomData = {
           meetingId: response.data.meetingId,
           startDate: response.data.startDate,
@@ -57,22 +54,48 @@ export function Home() {
         update(ref(database), updates);
 
       })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+      })
+
+    toast.promise(apiCall, {
+      loading: 'Criando sala...',
+      success: 'Sala criada!',
+      error: 'Desculpe, houve algo errado.',
+    });
 
   }
+
+
 
   return (
     <div className="main">
       <div className="content">
-        <label htmlFor="endDate">Data de término</label>
         <form onSubmit={handleCreateRoom}>
-          <input
-            type="datetime-local"
-            name="endDate"
-            id="endDate"
-            placeholder="Data e hora de término do meet"
-            onChange={event => setEndDateForm(event.target.value)}
-            value={endDateForm}
-          />
+          <div className="form-inputs">
+            <div className="form-input-field">
+              <label htmlFor="startDate">Data de início</label>
+              <input
+                type="datetime-local"
+                name="startDate"
+                id="startDate"
+                placeholder="Data e hora de término do meet"
+                onChange={event => setStartDateForm(event.target.value)}
+                value={startDateForm}
+              />
+            </div>
+            <div className="form-input-field">
+              <label htmlFor="endDate">Data de término</label>
+              <input
+                type="datetime-local"
+                name="endDate"
+                id="endDate"
+                placeholder="Data e hora de término do meet"
+                onChange={event => setEndDateForm(event.target.value)}
+                value={endDateForm}
+              />
+            </div>
+          </div>
           <button type="submit">Criar sala</button>
         </form>
       </div>
