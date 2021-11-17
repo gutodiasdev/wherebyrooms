@@ -4,6 +4,7 @@ import './styles/global.scss';
 function App() {
   return (
     <>
+      <p>app</p>
       <Home />
     </>
   );
