@@ -36,14 +36,14 @@ export function Home() {
     }
 
     const apiCall = api.post('/', {
-      startDate: startDateForm + ':00-03:00',
+      // startDate: startDateForm + ':00-03:00',
       endDate: endDateForm + ':00-03:00',
       fields: ['https://call-meethub.whereby.com']
     })
       .then((response) => {
         const newRoomData = {
           meetingId: response.data.meetingId,
-          startDate: response.data.startDate,
+          // startDate: response.data.startDate,
           endDate: response.data.endDate,
           roomUrl: response.data.roomUrl,
         }
@@ -70,7 +70,7 @@ export function Home() {
       <div className="content">
         <form onSubmit={handleCreateRoom}>
           <div className="form-inputs">
-            <div className="form-input-field">
+            {/* <div className="form-input-field">
               <label htmlFor="startDate">Data de início</label>
               <input
                 type="datetime-local"
@@ -80,7 +80,7 @@ export function Home() {
                 onChange={event => setStartDateForm(event.target.value)}
                 value={startDateForm}
               />
-            </div>
+            </div> */}
             <div className="form-input-field">
               <label htmlFor="endDate">Data de término</label>
               <input
@@ -103,13 +103,23 @@ export function Home() {
 
       <div className="room-container">
         {
-          wherebyRoomsList.map((room: any) => {
+          wherebyRoomsList.map((room) => {
             return (
               <Room
                 key={room.meetingId}
                 meetingId={room.meetingId}
-                startDate={room.startDate}
-                endDate={room.endDate.toLocaleString('pt-BR')}
+                startDate={new Date(room.startDate).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: '2-digit'
+                })}
+                endDate={new Date(room.endDate).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: '2-digit'
+                })}
                 roomUrl={room.roomUrl}
               />
             )
