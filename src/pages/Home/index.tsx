@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { database } from '../../services/firebase';
 import { ref, push, child, update, onValue } from 'firebase/database';
 import { Room } from '../../components/Room';
+import moment from 'moment';
 
 type Rooms = {
   meetingId: string,
@@ -15,7 +16,6 @@ type Rooms = {
 
 export function Home() {
   const [endDateForm, setEndDateForm] = useState('');
-  const [startDateForm, setStartDateForm] = useState('');
   const [wherebyRoomsList, setWhereByRoomsList] = useState<Rooms[]>([]);
 
   useEffect(() => {
@@ -36,7 +36,6 @@ export function Home() {
     }
 
     const apiCall = api.post('/', {
-      // startDate: startDateForm + ':00-03:00',
       endDate: endDateForm + ':00-03:00',
       fields: ['https://call-meethub.whereby.com']
     })
