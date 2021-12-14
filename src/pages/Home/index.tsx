@@ -96,17 +96,10 @@ export function Home() {
               <Room
                 key={room.meetingId}
                 meetingId={room.meetingId}
-                startDate={new Date(room.startDate).toLocaleDateString('pt-BR', {
-                  day: '2-digit',
-                  month: 'long',
-                  year: 'numeric',
-                  hour: '2-digit'
-                })}
                 endDate={new Date(room.endDate).toLocaleDateString('pt-BR', {
                   day: '2-digit',
                   month: 'long',
                   year: 'numeric',
-                  hour: 'numeric'
                 })}
                 roomUrl={room.roomUrl}
               />
