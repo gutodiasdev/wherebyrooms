@@ -62,6 +62,11 @@
 
     .form-inputs {
       display: flex;
+
+      .form-input-field {
+        display: flex;
+        direction: column;
+      }
     }
 
     label {

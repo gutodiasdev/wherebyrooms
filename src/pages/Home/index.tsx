@@ -43,7 +43,6 @@ export function Home() {
       .then((response) => {
         const newRoomData = {
           meetingId: response.data.meetingId,
-          // startDate: response.data.startDate,
           endDate: response.data.endDate,
           roomUrl: response.data.roomUrl,
         }
@@ -70,17 +69,6 @@ export function Home() {
       <div className="content">
         <form onSubmit={handleCreateRoom}>
           <div className="form-inputs">
-            {/* <div className="form-input-field">
-              <label htmlFor="startDate">Data de início</label>
-              <input
-                type="datetime-local"
-                name="startDate"
-                id="startDate"
-                placeholder="Data e hora de término do meet"
-                onChange={event => setStartDateForm(event.target.value)}
-                value={startDateForm}
-              />
-            </div> */}
             <div className="form-input-field">
               <label htmlFor="endDate">Data de término</label>
               <input
@@ -118,7 +106,7 @@ export function Home() {
                   day: '2-digit',
                   month: 'long',
                   year: 'numeric',
-                  hour: '2-digit'
+                  hour: 'numeric'
                 })}
                 roomUrl={room.roomUrl}
               />

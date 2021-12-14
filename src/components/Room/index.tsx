@@ -9,7 +9,6 @@ type RoomProps = {
 
 export function Room({
   meetingId,
-  startDate,
   endDate,
   roomUrl }: RoomProps) {
   return (
@@ -17,7 +16,6 @@ export function Room({
       <div className="room-id">
         <span>{meetingId}</span>
       </div>
-      {/* <p>{startDate}</p> */}
       <p>{endDate}</p>
       <div className="room-link">
         <input type="text" value={roomUrl} name="roomLink" id="roomLink" disabled readOnly />
