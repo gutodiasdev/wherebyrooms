@@ -28,6 +28,8 @@ export function Home() {
     });
   }, []);
 
+  const convertedDate = moment(endDateForm).format()
+
   async function handleCreateRoom(event: FormEvent) {
     event.preventDefault();
 
@@ -36,13 +38,13 @@ export function Home() {
     }
 
     const apiCall = api.post('/', {
-      endDate: endDateForm + ':00-03:00',
+      endDate: convertedDate,
       fields: ['https://call-meethub.whereby.com']
     })
       .then((response) => {
         const newRoomData = {
           meetingId: response.data.meetingId,
-          endDate: response.data.endDate,
+          endDate: moment(response.data.endDate).format('LLL'),
           roomUrl: response.data.roomUrl,
         }
 
@@ -95,13 +97,7 @@ export function Home() {
               <Room
                 key={room.meetingId}
                 meetingId={room.meetingId}
-                endDate={new Date(room.endDate).toLocaleDateString('pt-BR', {
-                  day: '2-digit',
-                  month: 'long',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+                endDate= {room.endDate}
                 roomUrl={room.roomUrl}
               />
             )
