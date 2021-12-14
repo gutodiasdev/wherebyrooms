@@ -37,7 +37,7 @@ export function Home() {
 
     const apiCall = api.post('/', {
       startDate: startDateForm + ':00-03:00',
-      endDate: startDateForm + ':00-03:00',
+      endDate: endDateForm + ':00-03:00',
       fields: ['https://call-meethub.whereby.com']
     })
       .then((response) => {
@@ -109,7 +109,7 @@ export function Home() {
                 key={room.meetingId}
                 meetingId={room.meetingId}
                 startDate={room.startDate}
-                endDate={room.endDate}
+                endDate={room.endDate.toLocaleString('pt-BR')}
                 roomUrl={room.roomUrl}
               />
             )
