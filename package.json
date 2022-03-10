@@ -50,8 +50,5 @@
   },
   "devDependencies": {
     "@types/react-copy-to-clipboard": "^5.0.2"
-  },
-  "engines": {
-    "node": "16.x"
   }
 }
